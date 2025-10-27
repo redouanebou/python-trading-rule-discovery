@@ -11,14 +11,14 @@ The entire philosophy is built around **"Honest" Validation** to avoid overfitti
 ### 1. The Brute-Force Iteration
 The script runs for thousands of iterations (`ITERATIONS = 5000`). In each iteration, it:
 * Picks a **random subset of features** (15-35 features).
-* Trains a simple, shallow **Decision Tree** (`max_depth=6`) on the **Training Data** (e.g., 2010-2021).
+* Trains a simple, shallow **Decision Tree** (`max_depth=6`) on the **Training Data** (e.g., 2005-2020).
 
 ### 2. The Rule Extraction
 It then extracts all the human-readable rules from the trained tree. For example:
 `IF 'm5_rsi' <= 30 AND 'h1_price_vs_ema' > 0.001 THEN predict 'Buy'`
 
 ### 3. The "HONEST" Validation
-This is the most important part. Each extracted rule is immediately tested on **Unseen Validation Data** (e.g., 2022-2023).
+This is the most important part. Each extracted rule is immediately tested on **Unseen Validation Data** (e.g., 2020-2023).
 
 * It finds every candle in the validation set that matches the rule's conditions.
 * It runs a high-speed, **Numba-accelerated backtester** (`@njit validate_rule_performance`) on those specific signals.
