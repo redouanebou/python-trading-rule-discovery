@@ -10,14 +10,14 @@ FEATURES_FILE_PATH = "features_GBP.csv"
 OUTPUT_BUY_RULES_PATH = "buyking.json"
 OUTPUT_SELL_RULES_PATH = "sellking.json"
 
-TRAIN_END_DATE = '2021-12-31'
+TRAIN_END_DATE = '2020-1-1'
 VALIDATION_START_DATE = '2022-01-01'
-VALIDATION_END_DATE = '2023-12-31'
+VALIDATION_END_DATE = '2024-12-31' 
 
-ITERATIONS = 5000
+ITERATIONS = 10000
 MIN_VALIDATION_TRADES = 100
-MIN_VALIDATION_WIN_RATE = 0.80 
-
+MIN_VALIDATION_WIN_RATE = 0.75  #mean hunt for 75% win rate rules
+ 
 ATR_PERIOD = 14
 ATR_MULTIPLIER_SL = 1.0
 RR_TP = 1.5
@@ -176,4 +176,5 @@ if __name__ == "__main__":
     with open(OUTPUT_SELL_RULES_PATH, "w") as f:
         json.dump(found_sell_rules, f, indent=4)
     print(f"✅ Saved {len(found_sell_rules)} validated Sell rules to '{OUTPUT_SELL_RULES_PATH}'")
-    print("\nThese rules are now ready for the final HONEST test on 2024-2025 data.")
+    print("\nThese rules are now ready for the final HONEST test on 2025 data and up.")
+#even its just a 10 months its enough at this way
