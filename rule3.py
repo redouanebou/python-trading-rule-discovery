@@ -9,14 +9,12 @@ import random
 FEATURES_FILE_PATH = "features_HTF.csv" 
 OUTPUT_BUY_RULES_PATH = "buy30.json"
 OUTPUT_SELL_RULES_PATH = "sell30.json"
-
-TRAIN_END_DATE = '2021-12-31' 
-VALIDATION_START_DATE = '2022-01-01'
+TRAIN_END_DATE = '2020-1-1' 
+VALIDATION_START_DATE = '2020-01-01'
 VALIDATION_END_DATE = '2023-12-31'
-
 ITERATIONS = 5000 
 MIN_VALIDATION_TRADES = 100 
-MIN_VALIDATION_WIN_RATE = 0.90 
+MIN_VALIDATION_WIN_RATE = 0.60 
 ATR_PERIOD = 14
 ATR_MULTIPLIER_SL = 1.0
 RR_TP = 2.0
@@ -179,4 +177,5 @@ if __name__ == "__main__":
 
     with open(OUTPUT_SELL_RULES_PATH, "w") as f:
         json.dump(found_sell_rules, f, indent=4)
+
     print(f"✅ Saved {len(found_sell_rules)} validated Sell rules to '{OUTPUT_SELL_RULES_PATH}'")
