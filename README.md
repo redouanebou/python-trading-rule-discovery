@@ -1,84 +1,56 @@
-<div align="center">
+# 🔍 Python Rule Discovery Engine (RDE)
 
-# 🛡️ Sentinel: Hybrid Quantitative Trading Infrastructure
-### Regime-Adaptive Institutional Execution Engine
-
-![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-Autoencoders-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
-![XGBoost](https://img.shields.io/badge/XGBoost-Gradient_Boosting-EB4034?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge)
-
-<p align="center">
-  <em>An institutional-grade algorithmic ecosystem engineered to solve the "Trilogy of Failure": Look-Ahead Bias, Overfitting, and Regime Shifts.</em>
-</p>
-
-</div>
+### Transparent, Causal, Decision-Tree–Based Alpha Mining
 
 ---
 
-## 📖 Executive Summary
+## 📖 Overview
 
-**Sentinel** is a comprehensive Quantitative Research & Execution Pipeline designed to bridge the gap between backtest theory and live market execution. Unlike standard retail bots that rely on lagging indicators, Sentinel employs a **Hybrid AI Architecture** that dynamically classifies market regimes and deploys specialized "Agent" models.
+This repository contains a **clean, honest, and reproducible** implementation of a rule-discovery engine built around shallow Decision Trees, strict causal validation, and fast Numba-accelerated backtesting.
 
-Crucially, it integrates a **Forensic Data Pipeline** that enforces strict causal integrity ($T-1$), ensuring that every backtest signal is theoretically executable in a live environment via the MetaTrader 5 bridge.
+No hype. No imaginary modules. No marketing fluff.
+
+This project does **one thing** — and does it well:
+
+> **Systematically mine interpretable trading rules and validate them on truly unseen data using a fast, realistic simulation engine.**
+
+If you want a solid foundation for building causal quant systems, this is it.
 
 ---
 
-## 🧠 Core Architecture: The "Hybrid Brain"
+## 🧠 What This Project *Actually Does*
 
-The decision engine rejects the monolithic model approach. Instead, it uses a **"Committee of Experts"** topology:
+### ✔️ 1. Feature-subset randomization ("feature bagging")
 
-```mermaid
-graph TD
-    subgraph Ingestion
-        A[Live Market Data] -->|Fetch & Clean| B(Feature Engineering)
-    end
+Each iteration selects a random subset of features (15–35) to enforce diversity and avoid overfitting.
 
-    subgraph The Hybrid Brain
-        B --> C{Regime Filter}
-        C -->|Low Volatility| D[Scalper Agent]
-        C -->|High Volatility| E[Breaker Agent]
-        
-        D & E --> F[XGBoost Directional Alpha]
-        B --> G[Autoencoder Anomaly Detector]
-    end
+### ✔️ 2. Shallow Decision Tree training
 
-    subgraph Execution
-        F --> H{Consensus Logic}
-        G -->|High Reconstruction Error| I[❌ HARD LOCK: Black Swan]
-        H -->|Prediction > Threshold| J[✅ Dynamic Sizing & Execution]
-    end
+A small tree forces human-interpretable logic like:
+
+```
+IF rsi_14 <= 30 AND adx_14 > 25 THEN BUY
 ```
 
-### 1. Brute-Force Mining (`rule2.py`)
+### ✔️ 3. Logic extraction
 
-* **Iterations:** 5,000+ cycles.
-* **Feature Bagging:** Random subset of 15–35 features per cycle.
-* **Logic Extraction:** Parses the Decision Tree structure into human‑readable SQL‑like rules.
+Tree splits are recursively converted into readable rule structures.
 
-### 2. The "Honest" Validator
+### ✔️ 4. Strict out-of-sample validation
 
-The immune system of the engine. Every rule is tested on untouched validation data.
+A JIT-compiled Numba backtester evaluates rules only on untouched validation data.
 
-**Validation Logic:**
+Validation includes:
 
-* JIT‑compiled backtester using **Numba**.
-* **ATR‑based Stop Loss** and **1.5R Take Profit**.
-* Time‑window outcome evaluation.
-* A rule is saved only if:
+* ATR-based stop loss
+* 1.5R take profit
+* max-horizon outcome logic
+* minimum trade count
+* win-rate threshold
 
-  * It generates **>100 trades**, and
-  * Achieves **>75% win rate**.
+### ✔️ 5. Automatically saving only robust rules
 
----
-
-## 🚀 Performance Optimization
-
-| Component     | Tech            | Impact                                   |
-| ------------- | --------------- | ---------------------------------------- |
-| Backtester    | Numba (`@njit`) | Validates 100,000+ signals in seconds    |
-| Tree Training | Scikit‑Learn    | Uses class balancing for rare events     |
-| Data I/O      | Pandas          | Handles large H4/M5 datasets efficiently |
+Validated BUY/SELL rules are stored in JSON.
 
 ---
 
@@ -86,33 +58,65 @@ The immune system of the engine. Every rule is tested on untouched validation da
 
 ```bash
 python-trading-rule-discovery/
-├── rule2.py                # Main Discovery Engine (Brute Force + Validation)
-├── rule3.py                # HTF Variant
-├── features_GBP.csv        # Input Dataset (GitIgnored)
-├── buyking.json            # Validated Buy Rules
-├── sellking.json           # Validated Sell Rules
+├── rule2.py                # Main rule mining engine
+├── rule3.py                # Higher-timeframe variant
+├── features_GBP.csv        # Input dataset (not included)
+├── buyking.json            # Robust out-of-sample BUY rules
+├── sellking.json           # Robust out-of-sample SELL rules
+├── requirements.txt        # Dependencies
 └── README.md               # Documentation
 ```
 
 ---
 
-## 💻 Usage
+## 📦 Installation
 
-### 1. Prepare Data
+### 1. Clone the repository
 
-Ensure you have a cleaned CSV file (`features_GBP.csv`) containing your full feature set.
+```bash
+git clone https://github.com/redouanebou/python-trading-rule-discovery
+cd python-trading-rule-discovery
+```
 
-### 2. Run Discovery
+### 2. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 📊 Data Requirements
+
+Your input CSV (`features_GBP.csv`) must include:
+
+* timestamp column
+* open, high, low, close
+* computed technical features (RSI, ADX, EMAs, volatility measures, etc.)
+* **NO look-ahead leakage**
+* **all features shifted by +1 candle** if derived from OHLC
+
+A minimal schema example:
+
+```text
+timestamp, open, high, low, close, rsi_14, adx_14, ema_50, ema_200, atr_14, ...
+```
+
+---
+
+## 🚀 Usage
+
+### Run the discovery engine
 
 ```bash
 python rule2.py
 ```
 
-The script will show a TQDM progress bar as it mines and validates rules.
+You will see a TQDM progress bar as rules are generated and validated.
 
-### 3. Inspect Output
+### Inspect generated rules
 
-Example from `buyking.json`:
+Example (from `buyking.json`):
 
 ```json
 {
@@ -128,16 +132,38 @@ Example from `buyking.json`:
 
 ---
 
-## ⚠️ Disclaimer
+## 🔒 Causality & Validation Integrity
 
-<div align="center"><strong>Research Code</strong></div>
+This engine enforces:
 
-This engine is intended for quantitative research and educational use.
+* **T-1 causal consistency**
+* **no future data access**
+* realistic trade simulation
+* rejection of weak or overfit rules
 
-* Overfitting remains a risk—"Honest Validation" reduces but does not eliminate it.
-* Market regimes change; a rule found in one may fail in another.
-* Real trading includes spread & slippage not fully modeled here.
+A rule is accepted only if:
+
+* it fires **>100 trades** in validation
+* win rate is **>75%**
 
 ---
 
-Engineered by **Redouane Boundra**.
+## 🧪 Roadmap (Realistic + Deliverable)
+
+* Add automated feature-drift analysis
+* Add multi-symbol batch processing
+* Add cross-regime validation (rolling windows)
+* Add Monte-Carlo stress tests
+* Add export to PineScript
+
+---
+
+## ⚠️ Disclaimer
+
+This project is for quantitative research purposes.
+It does not constitute financial advice or guarantee profitability.
+Use in live trading entirely at your own risk.
+
+---
+
+Maintained by **Redouane Boundra**.
