@@ -28,12 +28,11 @@ This engine solves that by brute-forcing thousands of **Decision Trees** on rand
 
 ```mermaid
 graph TD
-    subgraph Ingestion
     A[Training Data (2005-2020)] -->|Random Feature Subsets| B(Train Shallow Decision Trees)
     B -->|Extract Logic| C[Candidate Rules Pool]
     C -->|Simulate Trade| D{Honest Validator (2020-2023)}
-    D -->|Win Rate > 75%| E[Saved to JSON]
-    D -->|Win Rate < 75%| F[Discarded]
+    D -->|Win Rate > 75%| E[✅ Saved to JSON]
+    D -->|Win Rate < 75%| F[🗑️ Discarded]
 ```
 
 ### 1. Brute-Force Mining (`rule2.py`)
