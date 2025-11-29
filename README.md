@@ -1,38 +1,53 @@
 <div align="center">
 
-# 🐍 "HONEST" Python Rule Discovery Engine
+# 🛡️ Sentinel: Hybrid Quantitative Trading Infrastructure
+### Regime-Adaptive Institutional Execution Engine
 
-### Brute-Force Alpha Extraction & Validation
-
-![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
-![Decision Trees](https://img.shields.io/badge/SKLearn-Decision_Trees-F7931E?style=for-the-badge\&logo=scikit-learn\&logoColor=white)
-![Numba](https://img.shields.io/badge/Numba-JIT_Optimized-00A3E0?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-Autoencoders-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-Gradient_Boosting-EB4034?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Production_Ready-success?style=for-the-badge)
 
 <p align="center">
-  <em>A transparent "White-Box" research engine designed to discover human-readable trading rules using brute-force decision trees and honest out-of-sample validation.</em>
+  <em>An institutional-grade algorithmic ecosystem engineered to solve the "Trilogy of Failure": Look-Ahead Bias, Overfitting, and Regime Shifts.</em>
 </p>
 
 </div>
 
 ---
 
-## 📖 The Philosophy: "White Box" over "Black Box"
+## 📖 Executive Summary
 
-While Deep Learning offers power, it lacks interpretability. In high-stakes trading, not knowing *why* a model takes a trade is a risk.
+**Sentinel** is a comprehensive Quantitative Research & Execution Pipeline designed to bridge the gap between backtest theory and live market execution. Unlike standard retail bots that rely on lagging indicators, Sentinel employs a **Hybrid AI Architecture** that dynamically classifies market regimes and deploys specialized "Agent" models.
 
-This engine solves that by brute-forcing thousands of **Decision Trees** on random feature subsets to extract explicit, robust logic (e.g., `IF RSI < 30 AND H4_EMA > 200 THEN BUY`). It prioritizes **"Honest Validation"**—rejecting any rule that doesn't survive on unseen data with realistic friction.
+Crucially, it integrates a **Forensic Data Pipeline** that enforces strict causal integrity ($T-1$), ensuring that every backtest signal is theoretically executable in a live environment via the MetaTrader 5 bridge.
 
 ---
 
-## ⚙️ Core Workflow
+## 🧠 Core Architecture: The "Hybrid Brain"
+
+The decision engine rejects the monolithic model approach. Instead, it uses a **"Committee of Experts"** topology:
 
 ```mermaid
 graph TD
-    A[Training Data (2005-2020)] -->|Random Feature Subsets| B(Train Shallow Decision Trees)
-    B -->|Extract Logic| C[Candidate Rules Pool]
-    C -->|Simulate Trade| D{Honest Validator (2020-2023)}
-    D -->|Win Rate > 75%| E[✅ Saved to JSON]
-    D -->|Win Rate < 75%| F[🗑️ Discarded]
+    subgraph Ingestion
+        A[Live Market Data] -->|Fetch & Clean| B(Feature Engineering)
+    end
+
+    subgraph The Hybrid Brain
+        B --> C{Regime Filter}
+        C -->|Low Volatility| D[Scalper Agent]
+        C -->|High Volatility| E[Breaker Agent]
+        
+        D & E --> F[XGBoost Directional Alpha]
+        B --> G[Autoencoder Anomaly Detector]
+    end
+
+    subgraph Execution
+        F --> H{Consensus Logic}
+        G -->|High Reconstruction Error| I[❌ HARD LOCK: Black Swan]
+        H -->|Prediction > Threshold| J[✅ Dynamic Sizing & Execution]
+    end
 ```
 
 ### 1. Brute-Force Mining (`rule2.py`)
