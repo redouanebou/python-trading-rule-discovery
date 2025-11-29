@@ -10,7 +10,7 @@ This repository contains a **clean, honest, and reproducible** implementation of
 
 No hype. No imaginary modules. No marketing fluff.
 
-This project does **one thing** — and does it well:
+This project does **one thing** , and does it well:
 
 > **Systematically mine interpretable trading rules and validate them on truly unseen data using a fast, realistic simulation engine.**
 
