@@ -28,6 +28,7 @@ This engine solves that by brute-forcing thousands of **Decision Trees** on rand
 
 ```mermaid
 graph TD
+    subgraph Ingestion
     A[Training Data (2005-2020)] -->|Random Feature Subsets| B(Train Shallow Decision Trees)
     B -->|Extract Logic| C[Candidate Rules Pool]
     C -->|Simulate Trade| D{Honest Validator (2020-2023)}
