@@ -158,7 +158,7 @@ A rule is accepted only if:
 
 ---
 
-## ⚠️ Disclaimer
+## ⚠️ Disclaimer ⚠️
 
 This project is for quantitative research purposes.
 It does not constitute financial advice or guarantee profitability.
