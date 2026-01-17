@@ -1,4 +1,4 @@
-# 🔍 Python Rule Discovery Engine (RDE)
+#  🔍 Python Rule Discovery Engine (RDE)
 
 ### Transparent, Causal, Decision-Tree–Based Alpha Mining
 
